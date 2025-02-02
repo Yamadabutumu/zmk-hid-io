@@ -19,6 +19,8 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/keymap.h>
 #include <zmk/behavior.h>
 
+#define THRESHOLD_X 10
+
 #if IS_ENABLED(CONFIG_ZMK_HID_IO)
 #include <zmk/hid-io/endpoints.h>
 #include <zmk/hid-io/hid.h>
@@ -68,6 +70,11 @@ static void handle_rel_code(const struct zip_fwd_to_hid_io_config *config,
     case INPUT_REL_X:
         data->fwdr.data.mode = HID_IO_XY_DATA_MODE_REL;
         data->fwdr.data.x += event->value;
+
+        if (abs(event->value) >= THRESHOLD_X) {
+            zmk_hid_press(ZMK_KEYCODE_LEFT);  // アクション関数を呼び出す
+        }
+        
         break;
     case INPUT_REL_Y:
         data->fwdr.data.mode = HID_IO_XY_DATA_MODE_REL;
