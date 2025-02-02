@@ -71,9 +71,8 @@ static void handle_rel_code(const struct zip_fwd_to_hid_io_config *config,
         data->fwdr.data.mode = HID_IO_XY_DATA_MODE_REL;
         data->fwdr.data.x += event->value;
 
-        if (abs(event->value) >= THRESHOLD_X) {
-            zmk_hid_press(ZMK_KEYCODE_LEFT);  // アクション関数を呼び出す
-        }
+
+        zmk_hid_press(ZMK_KEYCODE_LEFT);  // アクション関数を呼び出す
         
         break;
     case INPUT_REL_Y:
